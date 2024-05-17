@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  web:
+    container_name: contactsapp_web
+    build:
+      context: ./ContactsApp_Web
+    ports:
+      - 3000:3000
+    networks:
+      - contactsapp_network
+
+  api:
+    build:
+      context: ./ContactsApp_API
+    container_name: contactsapp_api
+    ports:
+      - "8080:8080"
+    restart: always
+    networks:
+      - contactsapp_network
+      
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: contactsapp_db
+    hostname: contactsapp_db
+    environment:
+      SA_PASSWORD: "p@ssw0rd"
+      ACCEPT_EULA: "Y"
+      MSSQL_DATABASE: "ContactsAppDB"
+      MSSQL_SERVER_NAME: "contactsapp_db"
+    ports:
+      - 1433:1433
+    volumes:
+      - contactsapp-mssql:/var/opt/mssql/data
+    user: root
+    networks:
+      - contactsapp_network
+
+networks:
+  contactsapp_network:
+    driver: bridge
+
+volumes:
+  contactsapp-mssql:
