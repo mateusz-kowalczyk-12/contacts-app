@@ -8,7 +8,7 @@
         <td>
             <input
                 type="text"
-                @bind="_newContact.FirstName"
+                @bind="_contactModel.FirstName"
             />
         </td>
     </tr>
@@ -17,7 +17,7 @@
         <td>
             <input
                 type="text"
-                @bind="_newContact.LastName"
+                @bind="_contactModel.LastName"
             />
         </td>
     </tr>
@@ -26,7 +26,7 @@
         <td>
             <input
                 type="text"
-                @bind="_newContact.Email"
+                @bind="_contactModel.Email"
             />
         </td>
     </tr>
@@ -35,14 +35,14 @@
         <td>
             <input
                 type="text"
-                @bind="_newContact.Password"
+                @bind="_contactModel.Password"
             />
         </td>
     </tr>
     <tr>
         <td>Kategoria</td>
         <td>
-            <select @bind="_newContact.MainCategoryId">
+            <select @bind="_contactModel.MainCategoryId">
                 @if (AppState.MainCategories != null)
                 {
                     foreach (var category in AppState.MainCategories)
@@ -59,7 +59,7 @@
             @if (AppState.BusinessSubcategories != null)
                 // if the business subcategories have been fetched
             {
-                @if (_newContact.MainCategoryId != Guid.Empty)
+                @if (_contactModel.MainCategoryId != Guid.Empty)
                     // if the main category has been selected
                 {
                     @if (GetNewContactMainCategoryKey() == "other")
@@ -69,7 +69,7 @@
                         
                         <input
                             type="text"
-                            @bind="_newContact.OtherSubcategory"
+                            @bind="_contactModel.OtherSubcategory"
                         />
                     }
                     else if (GetNewContactMainCategoryKey() == "business")
@@ -77,7 +77,7 @@
                         // Delete the other subcategory that may have been previously set
                         DeleteSubcategory("other");
                         
-                        <select @bind="_newContact.BusinessSubcategoryId">
+                        <select @bind="_contactModel.BusinessSubcategoryId">
                             @if (AppState.BusinessSubcategories != null)
                             {
                                 foreach (var category in AppState.BusinessSubcategories)
@@ -104,7 +104,7 @@
         <td>
             <input
                 type="text"
-                @bind="_newContact.PhoneNumber"
+                @bind="_contactModel.PhoneNumber"
             />
         </td>
     </tr>
@@ -120,16 +120,25 @@
     </tbody>
 </table>
 
-<a class="btn btn-primary" @onclick="AddNewContact">
-    Dodaj (TODO: validate)    
-</a>
+@if (IsNewContact)
+{
+    <a class="btn btn-primary" @onclick="AddNewContact">
+        Dodaj (TODO: validate)
+    </a>
+}
+else
+{
+    <a class="btn btn-primary" @onclick="EditContact">
+        Zapisz (TODO: validate)
+    </a>
+}
 <br />
 <br />
 
 @if (_isError)
 {
     <span class="bg-danger p-2 text-light">
-        Wprowadzone dane są niepoprawne
+        Błąd
     </span>
 }
 @if (_isSuccess)

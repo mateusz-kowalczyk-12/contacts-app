@@ -25,11 +25,9 @@ public class ContactProfile: Profile
                 options =>
                     options.MapFrom(src => src.Email))
             .ForMember(
-                dest => dest.PasswordHash,
+                dest => dest.Password,
                 options =>
-                    options.MapFrom(src =>
-                        Convert.ToBase64String(
-                            SHA256.HashData(Encoding.UTF8.GetBytes(src.Password)))))
+                    options.MapFrom(src => src.Password))
             .ForMember(
                 dest => dest.MainCategory,
                 options =>
@@ -74,9 +72,9 @@ public class ContactProfile: Profile
                 options =>
                     options.MapFrom(src => src.Email))
             .ForMember(
-                dest => dest.PasswordHash,
+                dest => dest.Password,
                 options =>
-                    options.MapFrom(src => src.PasswordHash.ToString()))
+                    options.MapFrom(src => src.Password))
             .ForMember(
                 dest => dest.MainCategoryId,
                 options =>

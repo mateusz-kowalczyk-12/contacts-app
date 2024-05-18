@@ -1,4 +1,6 @@
+using Blazored.LocalStorage;
 using ContactsApp_Web.Components;
+using ContactsApp_Web.GlobalHelpers;
 using ContactsApp_Web.States;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,12 @@ builder.Services.AddHttpClient();
 
 // Register the AppState class
 builder.Services.AddSingleton<AppState>();
+
+// Register the global helpers class
+builder.Services.AddSingleton<AccessTokenHelper>();
+
+// Add the local storage service
+builder.Services.AddBlazoredLocalStorage();
 
 var app = builder.Build();
 

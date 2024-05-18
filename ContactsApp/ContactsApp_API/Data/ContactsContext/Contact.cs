@@ -18,7 +18,7 @@ public class Contact
     public string Email { get; set; } = null!;
     
     [MaxLength(256)]
-    public string PasswordHash { get; set; } = null!;
+    public string Password { get; set; } = null!;
     
     public Category MainCategory { get; set; } = null!;
     

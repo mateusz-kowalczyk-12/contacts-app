@@ -14,7 +14,7 @@ namespace ContactsApp_API.Controllers
     [ApiController]
     public class ContactsController(ContactsDbContext contactsDbContext, IMapper mapper) : ControllerBase
     {
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetContactById([FromRoute] Guid id)
         {
             var contact = await contactsDbContext.Contacts.FindAsync(id);
@@ -48,6 +48,7 @@ namespace ContactsApp_API.Controllers
             return Ok(categories);
         }
         
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddContact([FromBody] ContactRequest contactRequest)
         {
@@ -68,10 +69,13 @@ namespace ContactsApp_API.Controllers
         }
 
         [Authorize]
-        [HttpPut("{id}")]
+        [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateContact([FromRoute] Guid id, [FromBody] ContactRequest contactRequest)
         {
-            var originalContact = await contactsDbContext.Contacts.FindAsync(id);
+            var originalContact = await contactsDbContext.Contacts
+                .Include(contact => contact.MainCategory)
+                .Include(contact => contact.BusinessSubcategory)
+                .FirstOrDefaultAsync(contact => contact.Id == id);
             if (originalContact == null)
                 return NotFound();
             
@@ -87,15 +91,22 @@ namespace ContactsApp_API.Controllers
             var updatedContact = mapper.Map<Contact>(contactRequest);
             // Do not change the primary key
             updatedContact.Id = originalContact.Id;
+            
             // Update the original contact with the new values
             contactsDbContext.Entry(originalContact).CurrentValues.SetValues(updatedContact);
+            // Also update the foreign keys
+            originalContact.MainCategory = updatedContact.MainCategory;
+            originalContact.BusinessSubcategory = updatedContact.BusinessSubcategory;
+            
+            // Save the changes
+            contactsDbContext.Contacts.Update(originalContact);
             await contactsDbContext.SaveChangesAsync();
 
             return NoContent();
         }
 
         [Authorize]
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteContact([FromRoute] Guid id)
         {
             var contact = await contactsDbContext.Contacts.FindAsync(id);

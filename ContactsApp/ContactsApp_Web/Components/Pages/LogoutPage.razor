@@ -1,0 +1,18 @@
+﻿@using ContactsApp_Web.Components.Authentication
+
+@page "/Logout"
+@rendermode InteractiveServer
+
+<PageTitle>Wylogowywanie</PageTitle>
+
+<h1>Wylogowywanie</h1>
+
+<a class="btn btn-danger mb-2" @onclick="LogoutAsync">Wyloguj się</a>
+<br />
+
+@if (_isSuccess)
+{
+    <span class="bg-success p-2 text-light">
+        Sukces
+    </span>
+}
