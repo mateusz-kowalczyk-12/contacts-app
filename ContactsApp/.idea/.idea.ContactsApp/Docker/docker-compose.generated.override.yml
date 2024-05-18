@@ -1,0 +1,44 @@
+# This is a generated file. Not intended for manual editing.
+version: "3.8"
+services:
+  api:
+    build:
+      context: "D:\\Projekty programistyczne\\Praca\\NetPC\\contacts-app\\ContactsApp\\\
+        ContactsApp_API"
+      dockerfile: "Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/ContactsApp_API.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "contactsapp_api:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\tati_\\.nuget\\packages:/home/app/.nuget/packages"
+    - "D:\\Projekty programistyczne\\Praca\\NetPC\\contacts-app\\ContactsApp\\ContactsApp_API:/app:rw"
+    - "D:\\Projekty programistyczne\\Praca\\NetPC\\contacts-app\\ContactsApp:/src:rw"
+    working_dir: "/app"
+  web:
+    build:
+      context: "D:\\Projekty programistyczne\\Praca\\NetPC\\contacts-app\\ContactsApp\\\
+        ContactsApp_Web"
+      dockerfile: "Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/ContactsApp_Web.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_STATICWEBASSETS: "/app/bin/Debug/net8.0/ContactsApp_Web.staticwebassets.runtime.CT.json"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "contactsapp_web:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\tati_\\.nuget\\packages:/home/app/.nuget/packages"
+    - "D:\\Projekty programistyczne\\Praca\\NetPC\\contacts-app\\ContactsApp\\ContactsApp_Web:/app:rw"
+    - "D:\\Projekty programistyczne\\Praca\\NetPC\\contacts-app\\ContactsApp:/src:rw"
+    working_dir: "/app"

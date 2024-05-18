@@ -1,0 +1,40 @@
+﻿<table class="table table-hover table-dark">
+    <thead>
+    <tr>
+        <th scope="col">Lp.</th>
+        <th scope="col">Imię i nazwisko</th>
+        <th scope="col">Kategoria (Podkategoria)</th>
+        <th scope="col">Telefon</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (_contacts != null)
+    {
+        @foreach (var (contact, index) in _contacts.Select((contact, index) => (contact, index)))
+        {
+            <tr>
+                <th scope="row">@index</th>
+                <td>@contact.FirstName @contact.LastName</td>
+                <td>
+                    @(_mainCategories?
+                        .Find(category => category.Id == contact.MainCategoryId)?
+                        .Name
+                    )
+                    @if (contact.BusinessSubcategoryId != null || contact.OtherSubcategory != null)
+                    {
+                        @(" (")
+                        @(_subcategories?
+                            .Find(category =>
+                                contact.BusinessSubcategoryId != null && category.Id == contact.BusinessSubcategoryId)?
+                            .Name
+                        )
+                        @contact.OtherSubcategory
+                        @(")")
+                    }
+                </td>
+                <td>@contact.PhoneNumber</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
