@@ -47,8 +47,7 @@ namespace ContactsApp_API.Controllers
 
             return Ok(categories);
         }
-
-        [Authorize]
+        
         [HttpPost]
         public async Task<IActionResult> AddContact([FromBody] ContactRequest contactRequest)
         {

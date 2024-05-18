@@ -13,14 +13,15 @@ public partial class ContactsListPage
 
     protected override async Task OnInitializedAsync()
     {
+        _httpClient.BaseAddress = new Uri("http://host.docker.internal:8080");
         try
         {
             AppState.Contacts = await _httpClient.GetFromJsonAsync<List<GetContactResponse>>(
-                "http://host.docker.internal:8080/contacts");
+                "contacts");
             AppState.MainCategories = await _httpClient.GetFromJsonAsync<List<GetCategoryResponse>>(
-                "http://host.docker.internal:8080/contacts/categories?mainCategories=true");
+                "contacts/categories?mainCategories=true");
             AppState.BusinessSubcategories = await _httpClient.GetFromJsonAsync<List<GetCategoryResponse>>(
-                "http://host.docker.internal:8080/contacts/categories?mainCategories=false");
+                "contacts/categories?mainCategories=false");
         }
         catch (HttpRequestException)
         {

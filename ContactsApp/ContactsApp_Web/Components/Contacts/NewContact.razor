@@ -113,6 +113,7 @@
         <td>
             <input
                 type="date"
+                value="2000-01-01"
                 @bind="_newContactBirthDate"
             />
         </td>
@@ -123,3 +124,18 @@
 <a class="btn btn-primary" @onclick="AddNewContact">
     Dodaj (TODO: validate)    
 </a>
+<br />
+<br />
+
+@if (_isError)
+{
+    <span class="bg-danger p-2 text-light">
+        Wprowadzone dane są niepoprawne
+    </span>
+}
+@if (_isSuccess)
+{
+    <span class="bg-success p-2 text-light">
+        Sukces
+    </span>
+}
