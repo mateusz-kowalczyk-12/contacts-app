@@ -13,7 +13,7 @@ public partial class NewContact
     private readonly HttpClient _httpClient = new();
     
     private ContactRequest _newContact = new();
-    private DateOnly _newContactBirthDate = new();
+    private DateOnly _newContactBirthDate = DateOnly.FromDateTime(DateTime.Today);
     
     private bool _isError = false;
     private bool _isSuccess = false;
