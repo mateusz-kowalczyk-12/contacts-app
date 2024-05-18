@@ -1,4 +1,5 @@
 using ContactsApp_Web.Components;
+using ContactsApp_Web.States;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,9 @@ builder.Services
     .AddInteractiveServerComponents();
 
 builder.Services.AddHttpClient();
+
+// Register the AppState class
+builder.Services.AddSingleton<AppState>();
 
 var app = builder.Build();
 

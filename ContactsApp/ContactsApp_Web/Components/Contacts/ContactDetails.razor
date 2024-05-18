@@ -1,0 +1,55 @@
+﻿@rendermode InteractiveServer
+
+
+<table class="table table-dark">
+    <tbody>
+        <tr>
+            <th>Imię</th>
+            <td>@AppState.SelectedContact?.FirstName</td>
+        </tr>
+        <tr>
+            <th>Nazwisko</th>
+            <td>@AppState.SelectedContact?.LastName</td>
+        </tr>
+        <tr>
+            <th>E-mail</th>
+            <td>@AppState.SelectedContact?.Email</td>
+        </tr>
+        <tr>
+            <th>Hasło (hash)</th>
+            <td>@AppState.SelectedContact?.PasswordHash</td>
+        </tr>
+        <tr>
+            <th>Kategoria</th>
+            <td>
+                @(AppState.MainCategories?
+                            .Find(category => category.Id == AppState.SelectedContact?.MainCategoryId)?
+                            .Name
+                )
+            </td>
+        </tr>
+        <tr>
+            <th>Podkategoria</th>
+            <td>
+                @if (AppState.SelectedContact?.BusinessSubcategoryId != null || 
+                     AppState.SelectedContact?.OtherSubcategory != null)
+                {
+                    @(AppState.BusinessSubcategories?
+                        .Find(category => 
+                            AppState.SelectedContact?.BusinessSubcategoryId != null && category.Id == AppState.SelectedContact?.BusinessSubcategoryId)?
+                        .Name
+                    )
+                    @AppState.SelectedContact?.OtherSubcategory
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>Telefon</th>
+            <td>@AppState.SelectedContact?.PhoneNumber</td>
+        </tr>
+        <tr>
+            <th>Data urodzenia</th>
+            <td>@AppState.SelectedContact?.BirthDateDay-@AppState.SelectedContact?.BirthDateMonth-@AppState.SelectedContact?.BirthDateYear</td>
+        </tr>
+    </tbody>
+</table>

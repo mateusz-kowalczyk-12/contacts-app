@@ -7,19 +7,34 @@ services:
         ContactsApp_API"
       dockerfile: "Dockerfile"
       target: "base"
+      args:
+        BUILD_CONFIGURATION: "Debug"
     command: []
     entrypoint:
-    - "dotnet"
-    - "/app/bin/Debug/net8.0/ContactsApp_API.dll"
+    - "/opt/rider-debugger/linux-x64/dotnet/dotnet"
+    - "/opt/rider-debugger/JetBrains.Debugger.Worker.exe"
+    - "--mode=server"
+    - "--frontend-port=57100"
+    - "--backend-port=57300"
+    - "--timeout=60"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      RIDER_DEBUGGER_LOG_DIR: "/var/opt/rider-debugger"
+      RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
     image: "contactsapp_api:dev"
-    ports: []
+    ports:
+    - "127.0.0.1:57014:57100"
+    - "127.0.0.1:57214:57300"
     volumes:
     - "C:\\Users\\tati_\\.nuget\\packages:/home/app/.nuget/packages"
     - "D:\\Projekty programistyczne\\Praca\\NetPC\\contacts-app\\ContactsApp\\ContactsApp_API:/app:rw"
     - "D:\\Projekty programistyczne\\Praca\\NetPC\\contacts-app\\ContactsApp:/src:rw"
+    - "C:\\Users\\tati_\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2023.3.1\\\
+      Linux64:/opt/rider-debugger"
+    - "D:\\PROGRAMY\\JetBrains\\JetBrains Rider 2023.3.1\\bin:/etc/opt/rider-debugger/backend-log.xml"
+    - "C:\\Users\\tati_\\AppData\\Local\\JetBrains\\Rider2023.3\\log\\DebuggerWorker\\\
+      JetBrains.Debugger.Worker.2024_5_18_19_30_45:/var/opt/rider-debugger:rw"
     working_dir: "/app"
   web:
     build:
@@ -27,18 +42,33 @@ services:
         ContactsApp_Web"
       dockerfile: "Dockerfile"
       target: "base"
+      args:
+        BUILD_CONFIGURATION: "Debug"
     command: []
     entrypoint:
-    - "dotnet"
-    - "/app/bin/Debug/net8.0/ContactsApp_Web.dll"
+    - "/opt/rider-debugger/linux-x64/dotnet/dotnet"
+    - "/opt/rider-debugger/JetBrains.Debugger.Worker.exe"
+    - "--mode=server"
+    - "--frontend-port=57100"
+    - "--backend-port=57300"
+    - "--timeout=60"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       ASPNETCORE_STATICWEBASSETS: "/app/bin/Debug/net8.0/ContactsApp_Web.staticwebassets.runtime.CT.json"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      RIDER_DEBUGGER_LOG_DIR: "/var/opt/rider-debugger"
+      RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
     image: "contactsapp_web:dev"
-    ports: []
+    ports:
+    - "127.0.0.1:57015:57100"
+    - "127.0.0.1:57215:57300"
     volumes:
     - "C:\\Users\\tati_\\.nuget\\packages:/home/app/.nuget/packages"
     - "D:\\Projekty programistyczne\\Praca\\NetPC\\contacts-app\\ContactsApp\\ContactsApp_Web:/app:rw"
     - "D:\\Projekty programistyczne\\Praca\\NetPC\\contacts-app\\ContactsApp:/src:rw"
+    - "C:\\Users\\tati_\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2023.3.1\\\
+      Linux64:/opt/rider-debugger"
+    - "D:\\PROGRAMY\\JetBrains\\JetBrains Rider 2023.3.1\\bin:/etc/opt/rider-debugger/backend-log.xml"
+    - "C:\\Users\\tati_\\AppData\\Local\\JetBrains\\Rider2023.3\\log\\DebuggerWorker\\\
+      JetBrains.Debugger.Worker.2024_5_18_19_30_45:/var/opt/rider-debugger:rw"
     working_dir: "/app"

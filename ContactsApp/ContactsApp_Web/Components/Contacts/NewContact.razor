@@ -1,0 +1,125 @@
+﻿@rendermode InteractiveServer
+
+
+<table class="table table-dark">
+    <tbody>
+    <tr>
+        <td>Imię</td>
+        <td>
+            <input
+                type="text"
+                @bind="_newContact.FirstName"
+            />
+        </td>
+    </tr>
+    <tr>
+        <td>Nazwisko</td>
+        <td>
+            <input
+                type="text"
+                @bind="_newContact.LastName"
+            />
+        </td>
+    </tr>
+    <tr>
+        <td>E-mail</td>
+        <td>
+            <input
+                type="text"
+                @bind="_newContact.Email"
+            />
+        </td>
+    </tr>
+    <tr>
+        <td>Hasło</td>
+        <td>
+            <input
+                type="text"
+                @bind="_newContact.Password"
+            />
+        </td>
+    </tr>
+    <tr>
+        <td>Kategoria</td>
+        <td>
+            <select @bind="_newContact.MainCategoryId">
+                @if (AppState.MainCategories != null)
+                {
+                    foreach (var category in AppState.MainCategories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                }
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Podkategoria</td>
+        <td>
+            @if (AppState.BusinessSubcategories != null)
+                // if the business subcategories have been fetched
+            {
+                @if (_newContact.MainCategoryId != Guid.Empty)
+                    // if the main category has been selected
+                {
+                    @if (GetNewContactMainCategoryKey() == "other")
+                    {
+                        // Delete the business subcategory id that may have been previously set
+                        DeleteSubcategory("business");
+                        
+                        <input
+                            type="text"
+                            @bind="_newContact.OtherSubcategory"
+                        />
+                    }
+                    else if (GetNewContactMainCategoryKey() == "business")
+                    {
+                        // Delete the other subcategory that may have been previously set
+                        DeleteSubcategory("other");
+                        
+                        <select @bind="_newContact.BusinessSubcategoryId">
+                            @if (AppState.BusinessSubcategories != null)
+                            {
+                                foreach (var category in AppState.BusinessSubcategories)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            }
+                        </select>
+                    }
+                    else if (GetNewContactMainCategoryKey() == "private")
+                    {
+                        // Delete the business subcategory id that may have been previously set
+                        DeleteSubcategory("business");
+                        
+                        // Delete the other subcategory that may have been previously set
+                        DeleteSubcategory("other");
+                    }
+                }
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>Telefon</td>
+        <td>
+            <input
+                type="text"
+                @bind="_newContact.PhoneNumber"
+            />
+        </td>
+    </tr>
+    <tr>
+        <td>Data urodzenia</td>
+        <td>
+            <input
+                type="date"
+                @bind="_newContactBirthDate"
+            />
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a class="btn btn-primary" @onclick="AddNewContact">
+    Dodaj (TODO: validate)    
+</a>

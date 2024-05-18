@@ -1,0 +1,33 @@
+﻿@rendermode InteractiveServer
+
+<tr>
+    <th scope="row">
+        @(Index + 1)
+    </th>
+    <td>
+        @Contact.FirstName @Contact.LastName
+    </td>
+    <td>
+        @(AppState.MainCategories?
+            .Find(category => category.Id == Contact.MainCategoryId)?
+            .Name
+        )
+        @if (Contact.BusinessSubcategoryId != null || Contact.OtherSubcategory != null)
+        {
+            @(" (")
+            @(AppState.BusinessSubcategories?
+                .Find(category =>
+                    Contact.BusinessSubcategoryId != null && category.Id == Contact.BusinessSubcategoryId)?
+                .Name
+            )
+            @Contact.OtherSubcategory
+            @(")")
+        }
+    </td>
+    <td>
+        @Contact.PhoneNumber
+    </td>
+    <td>
+        <button @onclick="SelectContact">Wybierz</button>
+    </td>
+</tr>
