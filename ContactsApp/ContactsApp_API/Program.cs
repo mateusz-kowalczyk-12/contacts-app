@@ -14,7 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Adding JSON serializer
-builder.Services.AddControllers()
+builder.Services
+    .AddControllers()
     .AddNewtonsoftJson(options =>
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
     )
@@ -48,8 +49,8 @@ var app = builder.Build();
 // Enabling CORS
 app.UseCors(policyBuilder =>
     policyBuilder
-        .AllowAnyHeader()  // TODO: whitelist only the correct origin
-        .AllowAnyOrigin()
+        .WithOrigins("http://localhost:3000")
+        .AllowAnyHeader()
         .AllowAnyMethod());
 
 // Adding Swagger
