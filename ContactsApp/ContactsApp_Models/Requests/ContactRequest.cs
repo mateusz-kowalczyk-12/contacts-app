@@ -26,6 +26,7 @@ public class ContactRequest
     public string? OtherSubcategory { get; set; }
     
     [MaxLength(256)]
+    [RegularExpression(@"^\+?[0-9]+$")]
     public string PhoneNumber { get; set; } = null!;
     
     public int BirthDateYear { get; set; }
