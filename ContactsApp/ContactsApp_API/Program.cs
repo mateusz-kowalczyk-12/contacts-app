@@ -69,7 +69,6 @@ app.UseHttpsRedirection();
 
 using (var scope = app.Services.CreateScope())
 {
-    // TODO: enable globalization
     // Updating the database with pending migrations
     var contactsDbContext = scope.ServiceProvider.GetRequiredService<ContactsDbContext>();
     var usersDbContext = scope.ServiceProvider.GetRequiredService<UsersDbContext>();

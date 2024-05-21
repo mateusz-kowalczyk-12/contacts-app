@@ -168,9 +168,10 @@ namespace ContactsApp_API.Controllers
             }
             
             // Check if the given birth date is in range of the DateOnly struct
+            DateOnly birthDate;
             try
             {
-                _ = new DateOnly(
+                birthDate = new DateOnly(
                     contactRequest.BirthDateYear,
                     contactRequest.BirthDateMonth,
                     contactRequest.BirthDateDay);
@@ -179,6 +180,10 @@ namespace ContactsApp_API.Controllers
             {
                 return "Birth date out of range";
             }
+            
+            // Check if the given birth date is not from the future
+            if (birthDate > DateOnly.FromDateTime(DateTime.Today))
+                return "Birth date is from the future";
 
             return null;
         }

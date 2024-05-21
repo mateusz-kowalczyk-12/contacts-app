@@ -7,7 +7,7 @@ namespace ContactsApp_Web.GlobalHelpers;
 
 public class AccessTokenHelper
 {
-    /// Returns true if the token has been loaded. Otherwise returns false
+    /// <returns>whether the token has been loaded</returns>
     public static async Task<bool> LoadBearerTokenAsync(ILocalStorageService localStorage, HttpClient httpClient)
     {
         var accessTokenModel = await localStorage.GetItemAsync<AccessTokenResponse>("accessTokenResponse");
